@@ -10,6 +10,6 @@ import com.sena.springecommerce.model.Usuario;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 	
-	Optional<Usuario> findbyEmail(String email);
+	Optional<Usuario> findByEmail(String email);
 
 }

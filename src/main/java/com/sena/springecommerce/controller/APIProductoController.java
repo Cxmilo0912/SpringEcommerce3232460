@@ -74,7 +74,7 @@ public class APIProductoController {
 		productoService.update(existingProduct);
 		return ResponseEntity.ok(existingProduct);
 	}
-
+ 
 	// Endpoint DELETE para eliminar un producto
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {

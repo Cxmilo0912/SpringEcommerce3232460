@@ -49,7 +49,7 @@ public class UsuarioServiceImplement implements IUsuarioService {
 	@Override
 	public Optional<Usuario> findByEmail(String email) {
 		// TODO Auto-generated method stub
-		return usuarioRepository.findbyEmail(email);
+		return usuarioRepository.findByEmail(email);
 	}
 
 	@Override
