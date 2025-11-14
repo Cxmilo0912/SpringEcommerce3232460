@@ -3,6 +3,9 @@ package com.sena.springecommerce.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +27,8 @@ public class Orden {
 	@ManyToOne
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "orden")
+	@OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<DetalleOrden> detalle;
 
 	public Orden() {

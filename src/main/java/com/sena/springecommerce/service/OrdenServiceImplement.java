@@ -1,8 +1,9 @@
 package com.sena.springecommerce.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,30 +44,29 @@ public class OrdenServiceImplement implements IOrdenService {
 
 	@Override
 	public String generarNumeroOrden() {
-		// TODO Auto-generated method stub
-		int numero = 0;
-		String numeroConcatenado = "";
-		List<Orden> ordenes = findAll();
-		List<Integer> numeros = new ArrayList<>();
-		// funciones de java 8
-		// variable anonima
-		ordenes.stream().forEach(o -> numeros.add(Integer.parseInt(o.getNumero())));
-		// validacion
-		if (ordenes.isEmpty()) {
-			numero = 1;
-		} else {
-			numero = numeros.stream().max(Integer::compare).get();
-			numero++;
-		}
-		// numero de ordenes
-		if (numero < 10) {
-			numeroConcatenado = "000000000000" + String.valueOf(numero);
-		} else if (numero < 100) {
-			numeroConcatenado = "00000000000" + String.valueOf(numero);
-		} else if (numero < 1000) {
-			numeroConcatenado = "0000000000" + String.valueOf(numero);
+		List<Orden> ordenes = ordenRepository.findAll();
 
+		// Filtra las órdenes que tengan número no nulo y no vacío
+		List<Integer> numeros = ordenes.stream().map(Orden::getNumero).filter(Objects::nonNull)
+				.filter(s -> !s.trim().isEmpty()).map(s -> {
+					try {
+						return Integer.parseInt(s);
+					} catch (NumberFormatException e) {
+						return null; // ignora valores inválidos
+					}
+				}).filter(Objects::nonNull).collect(Collectors.toList());
+
+		int numero;
+		String numeroConcatenado;
+
+		if (numeros.isEmpty()) {
+			numeroConcatenado = "00000001";
+		} else {
+			numero = numeros.stream().max(Integer::compareTo).orElse(0);
+			numero++;
+			numeroConcatenado = String.format("%08d", numero);
 		}
+
 		return numeroConcatenado;
 	}
 

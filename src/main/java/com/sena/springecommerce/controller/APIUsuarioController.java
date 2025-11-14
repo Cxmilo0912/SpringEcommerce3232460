@@ -59,6 +59,7 @@ public class APIUsuarioController {
 		existingUser.setNombre(usuarioDetails.getNombre());
 		existingUser.setPassword(usuarioDetails.getPassword());
 		existingUser.setTelefono(usuarioDetails.getTelefono());
+		existingUser.setRol(usuarioDetails.getRol());
 
 		usuarioService.update(existingUser);
 		return ResponseEntity.ok(existingUser);
